@@ -1,5 +1,4 @@
-from sys import *
-import ast
+import sys
 
 #check types
 def checkstring(string):
@@ -51,9 +50,10 @@ def checkdic(dic):
     else:
         return False
 
+
+
 #calculate
 def calculate(tree, vars):
-    print(tree)
     #check operator
     if tree[2] == "+":
         return checktypes(vars, tree[1]) + checktypes(vars, tree[3])
@@ -82,7 +82,8 @@ def changeToList(lists, vars):
         elif checklist(nospace):
             newlist.append(changeToList(nospace, vars))
         else:
-            raise ValueError("Unknown value type: {}".format(nospace))
+            print("Unknown value type: {}".format(nospace))
+            sys.exit()
     return newlist
 
 #check types
@@ -99,19 +100,15 @@ def checktypes(vars, thing):
         return changeToList(thing, vars)
     elif checkdic(thing):
         try:
-            return ast.literal_eval(thing)
+            return eval(thing)
         except:
-            raise Exception("Invalid dictionary: {}".format(thing))
+            print("Invalid dictionary: {}".format(thing))
+            sys.exit()
     else:
-        raise Exception("ValueError: Unknown value type: {}".format(thing))
+        print("ValueError: Unknown value type: {}".format(thing))
+        sys.exit
 
-#language
-def execute():
-    ast = parse()
-
-    vars = {}
-
-    for cmd in ast:
+def execi(cmd, vars):
         if cmd[0] == "print":
             print(checktypes(vars, cmd[1]))
 
@@ -121,9 +118,21 @@ def execute():
         elif cmd[0] == "calc":
             #set variable to result
             vars[cmd[4]] = calculate(cmd, vars)
+        
+        elif cmd[0] == "stop":
+            sys.exit()
+
+#language
+def execute():
+    ast = parse()
+
+    vars = {}
+
+    for cmd in ast:
+        execi(cmd, vars)
 
 def tokenize():
-    with open("test.is") as f:
+    with open(sys.argv[1]) as f:
         content = f.read()
         contentsplit = content.split('\n')
 
@@ -138,9 +147,10 @@ def tokenize():
                 tokens.append(line.split(" "))
         return tokens
 
-def parse():
+def parse(tokens=None):
     ast = []
-    tokens = tokenize()
+    if tokens == None:
+        tokens = tokenize()
 
     for token in tokens:
         if token[0] == "print":
@@ -157,8 +167,11 @@ def parse():
             ast.append(["var", token[1], token[2], restofwords])
         elif token[0] == "calc":
             ast.append(token)
+        elif token[0] == "stop":
+            ast.append(["stop"])
         else:
-            raise Exception("Unknown command: {}".format(token[0]))
+            print("Unknown command: " + token[0])
+            sys.exit()
     
 
     return ast
