@@ -1,0 +1,5 @@
+#program
+
+calc 6 / 2 a
+print a
+print "Hello my name is Jerry"
