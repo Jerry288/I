@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "I#"
-#define MyAppVersion "1.0"
+#define MyAppVersion "1.1"
 #define MyAppPublisher "I languages, Inc."
 #define MyAppURL "https://github.com/Jerry288/I-sharp"
 #define MyAppExeName "isharp.exe"
@@ -30,7 +30,7 @@ InfoBeforeFile=C:\Users\linje\OneDrive\I\installs\info.txt
 InfoAfterFile=C:\Users\linje\OneDrive\I\installs\info.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputDir=C:\Users\linje\OneDrive\I\installs\windows\1.0
+OutputDir=C:\Users\linje\OneDrive\I\installs\windows\1.1
 OutputBaseFilename=I sharp installer
 Compression=lzma
 SolidCompression=yes
