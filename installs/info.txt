@@ -1,0 +1,1 @@
+After installation, search up env and click on "Edit the system environement variables". In the avanced tab, click on "Environment Variables..." Under the System variables section, double click on Path and click new, then paste in C:\Program Files\I sharp. Press enter, and click both ok's. Restart the device.

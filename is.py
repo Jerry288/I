@@ -64,6 +64,25 @@ def calculate(tree, vars):
     elif tree[2] == "/":
         return checktypes(vars, tree[1]) / checktypes(vars, tree[3])
 
+#open files
+def openfile(tree, vars):
+    typeopen = ""
+    if tree[2] == "write":
+        typeopen = "w"
+    elif tree[2] == "read":
+        typeopen = "r"
+    elif tree[2] == "writebytes":
+        typeopen = "wb"
+    elif tree[2] == "readbytes":
+        typeopen = "rb"
+    try:
+        thefile = open(checktypes(vars, tree[1]), typeopen)
+        vars[tree[3]] = thefile
+    except Exception as e:
+        print(e)
+        sys.exit()
+    return
+
 #change
 def changeToList(lists, vars):
     lists = lists[1:][:-1]
@@ -119,6 +138,18 @@ def execi(cmd, vars):
             #set variable to result
             vars[cmd[4]] = calculate(cmd, vars)
         
+        elif cmd[0] == "openf":
+            openfile(cmd, vars)
+        
+        elif cmd[0] == "read":
+            vars[cmd[2]] = vars[cmd[1]].read()
+
+        elif cmd[0] == "write":
+            vars[cmd[1]].write(checktypes(vars, cmd[2]))
+
+        elif cmd[0] == "closef":
+            vars[cmd[1]].close()
+
         elif cmd[0] == "stop":
             sys.exit()
 
@@ -167,6 +198,20 @@ def parse(tokens=None):
             ast.append(["var", token[1], token[2], restofwords])
         elif token[0] == "calc":
             ast.append(token)
+        elif token[0] == "openf":
+            ast.append(["openf", token[1], token[2], token[3]]) #token[1] is file name token[2] is open type read write readbytes writebytes. token[3] variable name.
+        elif token[0] == "read":
+            ast.append(["read", token[1], token[2]]) #token[1] is file var token[2] read result var
+        elif token[0] == "write":
+            towrite = ""
+            for i in range(2, len(token)):
+                if i != 2:
+                    towrite = towrite + " " + token[i]
+                else:
+                    towrite += token[i]
+            ast.append(["write", token[1], towrite]) #token[1] is file var token[2] thing to write
+        elif token[0] == "closef":
+            ast.append(["closef", token[1]]) #token[1] is file var
         elif token[0] == "stop":
             ast.append(["stop"])
         else:
