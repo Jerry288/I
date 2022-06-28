@@ -14,6 +14,8 @@ I sharp is a language in extremely early stage developement. It is an interprete
 
 ## downloads
 
+Click on one of the links to download. **Follow the instructions on the installer carefully.**
+
 Version       | Download
 ------------- | -------------
 1.0           | [download](https://github.com/Jerry288/I-sharp/raw/master/installs/windows/1.0/I%20sharp%20installer.exe)
